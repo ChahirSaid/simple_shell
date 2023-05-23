@@ -23,6 +23,6 @@ char *get_path(char *cmd);
 void exit_shell(int status);
 void print_environment(char **envp);
 char *get_environment_variable(const char *name);
-int compare_strings(char *s1, char *s2);
+int _strcmp(char *s1, char *s2);
 
 #endif

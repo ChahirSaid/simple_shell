@@ -1,41 +1,53 @@
 #include "shell.h"
-
 /**
- * get_path - Function to find the full path of a command
- * @cmd: Pointer to the command
- * Return: Pointer to the full path of the command,
-		or NULL if not found
+ * prompt - Function that prompts the user for input
+ * @argv: Pointer to array of arguments
+ * @envp: Pointer to the environment
+ * Return: Integer
  */
-char *get_path(char *cmd)
+int prompt(char **argv, char **envp)
 {
-	char *path = get_environment_variable("PATH");
-	char *token, *path_copy;
-	char *full_path = NULL;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
+	char **tokens;
+	int status = 1;
+	int execute_status;
 
-	path_copy = strdup(path);
-	if (path_copy == NULL)
+	while (status)
 	{
-		perror("Failed to allocate memory");
-		return (NULL);
-	}
-
-	token = strtok(path_copy, ":");
-	while (token != NULL)
-	{
-		full_path = malloc(strlen(token) + strlen(cmd) + 2);
-		if (full_path == NULL)
+		_puts("$ ");
+		read = getline(&line, &len, stdin);
+		if (read == -1 || feof(stdin))
 		{
-			perror("Failed to allocate memory");
-			free(path_copy);
-			return (NULL);
-		}
-		sprintf(full_path, "%s/%s", token, cmd);
-		if (access(full_path, X_OK) == 0)
+			if (line != NULL)
+				free(line);
 			break;
-		free(full_path);
-		full_path = NULL;
-		token = strtok(NULL, ":");
+		}
+		if (line[0] == '\n')
+			continue;
+
+		tokens = split(line);
+		if (tokens == NULL)
+		{
+			free(line);
+			continue;
+		}
+		if (_strcmp(tokens[0], "exit") == 0)
+		{
+			status = 0;
+			free(tokens);
+			break;
+		}
+		execute_status = execute(tokens[0], tokens, argv, envp);
+		if (execute_status == -1)
+		{
+			free(tokens);
+			break;
+		}
+		free(tokens);
 	}
-	free(path_copy);
-	return (full_path);
+	exit_shell(status);
+	free(line);
+	return (0);
 }

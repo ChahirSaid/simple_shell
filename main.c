@@ -10,9 +10,9 @@
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
-	signal(SIGINT, handle_ctrl);
+	signal(SIGINT, handle_signal);
 
 	prompt(argv, envp);
 
-	return (0);
+	return 0;
 }

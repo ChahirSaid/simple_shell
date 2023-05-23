@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * get_path - Function to find the full path of a command
+ * path - Function to find the full path of a command
  * @cmd: Pointer to the command
  * Return: Pointer to the full path of the command,
-		or NULL if not found
+ *         or NULL if not found
  */
-char *get_path(char *cmd)
+char *path(char *cmd)
 {
 	char *path = get_environment_variable("PATH");
 	char *token, *path_copy;
