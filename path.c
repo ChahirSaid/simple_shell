@@ -4,7 +4,7 @@
  * path - Function to find the full path of a command
  * @cmd: Pointer to the command
  * Return: Pointer to the full path of the command,
- *         or NULL if not found
+ *	or NULL if not found
  */
 char *path(char *cmd)
 {

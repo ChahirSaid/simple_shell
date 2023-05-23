@@ -15,7 +15,6 @@ int execute(char *cmd, char **argv, char **av, char **envp);
 void handle_ctrl(int signal);
 int prompt(char **argv, char **envp);
 char **split(char *line);
-void handle_signal(int signum);
 int _strlen(char *s);
 void _puts(char *str);
 int _putchar(char c);

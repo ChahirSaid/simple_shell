@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * prompt - Function that prompts the user for input
  * @argv: Pointer to array of arguments

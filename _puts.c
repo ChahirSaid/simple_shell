@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * _puts - Prints a string
  * @str: Pointer to the string
@@ -6,12 +7,12 @@
  */
 void _puts(char *str)
 {
-if (str == NULL)
-return;
-int i = 0;
-while (str[i] != '\0')
-{
-	_putchar(str[i]);
-	i++;
-}
+	if (str == NULL)
+		return;
+
+	while (*str != '\0')
+	{
+		_putchar(*str);
+		str++;
+	}
 }
