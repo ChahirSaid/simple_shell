@@ -19,7 +19,7 @@ void handle_signal(int signum);
 int _strlen(char *s);
 void _puts(char *str);
 int _putchar(char c);
-char *get_path(char *cmd);
+char *path(char *cmd);
 void exit_shell(int status);
 void print_environment(char **envp);
 char *get_environment_variable(const char *name);
