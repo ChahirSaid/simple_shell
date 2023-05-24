@@ -1,4 +1,4 @@
-#include "sshell.h"
+#include "shell.h"
 
 /**
  * get_directories - split the PATH variable to dirs paths
