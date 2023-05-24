@@ -1,18 +1,17 @@
 #include "main.h"
-/**
- * main - simple shell
- * @argc: arg count
- * @argv: arg vector
- *
- * Return: 0 on success, 1 on error
- */
 
+/**
+ * main - init data
+ * @argc: input size of @argv
+ * @argv: input array of command line arguments
+ * Return: Always 0.
+ */
 int main(int argc, char **argv)
 {
-	list_path *list_head = NULL;
-
+	data d;
 	(void)argc;
-	adding_path(&list_head);
-	sh(list_head, argv[0]);
-	return (EXIT_SUCCESS);
+	init_data(&d, argv[0]);
+	_exec(&d);
+
+	return (0);
 }
