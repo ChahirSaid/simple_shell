@@ -1,41 +1,60 @@
 #include "shell.h"
 
 /**
- * path - Function to find the full path of a command
- * @cmd: Pointer to the command
- * Return: Pointer to the full path of the command,
- *	or NULL if not found
+ * make_path - makes a path
+ * @path: path to make
+ * @cmd: command to add to path
+ * Return: path
  */
-char *path(char *cmd)
-{
-	char *path = get_environment_variable("PATH");
-	char *token, *path_copy;
-	char *full_path = NULL;
 
-	path_copy = strdup(path);
-	if (path_copy == NULL)
+char *make_path(char *path, char *cmd)
+{
+	char *cmd_path = NULL;
+
+	cmd_path = malloc(sizeof(char) * (_strlen(path) + _strlen(cmd) + 2));
+	if (cmd_path == NULL)
+		return (NULL);
+	_strcpy(cmd_path, path);
+	_strcat(cmd_path, "/");
+	_strcat(cmd_path, cmd);
+	return (cmd_path);
+}
+
+/**
+ * get_path - gets the path of a command
+ * @cmd: command to get the path of
+ * Return: path of the command
+ */
+
+char *get_path(char *cmd)
+{
+	char *path = NULL, *path_copy = NULL, *token = NULL, *cmd_path = NULL;
+	struct stat st;
+
+	if (stat(cmd, &st) == 0)
+		return (cmd);
+	if (cmd == NULL)
+		return (NULL);
+	if (cmd[0] == '/')
 	{
-		perror("Failed to allocate memory");
+		if (stat(cmd, &st) == 0)
+			return (cmd);
 		return (NULL);
 	}
-
+	path = _getenv("PATH");
+	path_copy = _strdup(path);
 	token = strtok(path_copy, ":");
 	while (token != NULL)
 	{
-		full_path = malloc(strlen(token) + strlen(cmd) + 2);
-		if (full_path == NULL)
+		cmd_path = make_path(token, cmd);
+		if (stat(cmd_path, &st) == 0)
 		{
-			perror("Failed to allocate memory");
 			free(path_copy);
-			return (NULL);
+			return (cmd_path);
 		}
-		sprintf(full_path, "%s/%s", token, cmd);
-		if (access(full_path, X_OK) == 0)
-			break;
-		free(full_path);
-		full_path = NULL;
+		free(cmd_path);
 		token = strtok(NULL, ":");
 	}
 	free(path_copy);
-	return (full_path);
+	return (NULL);
 }

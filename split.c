@@ -1,30 +1,30 @@
 #include "shell.h"
 
 /**
- * split - Function to split a string into tokens
- * @line: Pointer to the string
- * Return: Array of tokens
+ * tokenize - tokenizes a string
+ * @buf: buffer to store the input
+ * Return: pointer to an array of strings
  */
-char **split(char *line)
+
+char **tokenize(char *buf)
 {
-	char *token;
-	char **tokens = malloc(100 * sizeof(char *));
+	char **tokens = NULL;
+	char *token = NULL;
 	int i = 0;
 
-	if (!tokens)
+	tokens = malloc(sizeof(char *) * 1024);
+	if (tokens == NULL)
 	{
-		perror("Failed to allocate memory");
-		exit(EXIT_FAILURE);
+		perror("Error");
+		return (NULL);
 	}
-
-	token = strtok(line, " \t\n");
-	while (token != NULL && i < 99)
+	token = strtok(buf, " \t\n");
+	while (token != NULL)
 	{
 		tokens[i] = token;
 		token = strtok(NULL, " \t\n");
 		i++;
 	}
 	tokens[i] = NULL;
-
 	return (tokens);
 }
